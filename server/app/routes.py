@@ -31,13 +31,10 @@ def create_blog():
 def create_newuser():
   try:
     name=request.json["name"]
-    # blog_writter=request.json["blog_writer"]
-    #insert a thread here
+    
     u=User(username=name.format("@gamil.com"),name=name)
-    # p=Post(author=u,post_content=blog)
 
     db.session.add(u)
-    # db.session.add(p)
     db.session.commit()
   except IntegrityError:
     return json.dumps({'response':'user already exists'})
@@ -46,11 +43,13 @@ def create_newuser():
   return json.dumps({'response':'new user created'})
 
 @app.route("/get_blog_self",methods=['GET'])
-def get_blog():
+def get_blog_self():
     user_n=request.args.get('u')
-    a=User.query.all()
-   
-    u_name=User.query.filter_by(name=a[1].name).all()
+    print(User.query.all())
+    u_name=User.query.filter_by(name=user_n).all()
+    if u_name == []:
+        return json.dumps({"error":"code"})
+    print(u_name[0])
     l=[]
     posts=u_name[0].posts.all()
     for p in posts:
@@ -62,15 +61,21 @@ def get_blog():
 
 @app.route("/deleteAll",methods=['GET'])
 def deleteAll():
-    users=User.query.all()
-    print(users)
+    auth_code=request.args.get('a')
+    print(type(auth_code))
+    print(auth_code=="alpha")
+    if auth_code=="alpha":
+        users=User.query.all()
+        print(users)
 
-    for u in users:
-        db.session.delete(u)
+        for u in users:
+         db.session.delete(u)
     
-    posts=Post.query.all()
-    for p in posts:
-        db.session.delete(p)
+        posts=Post.query.all()
+        for p in posts:
+            db.session.delete(p)
     
-    db.session.commit()
-    return json.dumps({"response" : "success"})
+        db.session.commit()
+        return json.dumps({"response" : "success"})
+    return json.dumps({"response" : "failure"})
+    
