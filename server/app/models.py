@@ -4,7 +4,7 @@ from datetime import datetime
 class User(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(10),index=True,unique=True)
-    name=db.Column(db.String(10),index=True,unique=False)
+    name=db.Column(db.String(10),index=True,unique=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     def __repr__(self):
         return '<User {}>'.format(self.username)

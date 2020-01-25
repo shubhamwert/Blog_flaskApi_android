@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect,url_for,request,jsonify
 from flask_cors import CORS, cross_origin
 import json
 from app.models import User, Post
-
+from sqlalchemy.exc import IntegrityError
 CORS(app)
 @app.route("/info_time",methods=['GET'])
 def info_time():
@@ -13,13 +13,13 @@ def info_time():
 @app.route("/create_blog",methods=['POST'])
 def create_blog():
     blog=request.json["blog"]
-    blog_writter=request.json["blog_writer"]
+    blog_writter=request.json["blog_writter"]
     print(" written by ",blog_writter," \n",blog)
     #insert a thread here
-    u=User(username="{}@gamil.com".format(blog_writter),name=blog_writter)
+    u=User.query.filter_by(name=blog_writter).first()
     p=Post(author=u,post_content=blog)
 
-    db.session.add(u)
+    # db.session.add(u)
     db.session.add(p)
     db.session.commit()
     
@@ -27,13 +27,50 @@ def create_blog():
     
     return json.dumps({'response':'blog created'})
 
-@app.route("/get_blog",methods=['GET'])
+@app.route("/create_newuser",methods=['POST'])
+def create_newuser():
+  try:
+    name=request.json["name"]
+    # blog_writter=request.json["blog_writer"]
+    #insert a thread here
+    u=User(username=name.format("@gamil.com"),name=name)
+    # p=Post(author=u,post_content=blog)
+
+    db.session.add(u)
+    # db.session.add(p)
+    db.session.commit()
+  except IntegrityError:
+    return json.dumps({'response':'user already exists'})
+    
+    
+  return json.dumps({'response':'new user created'})
+
+@app.route("/get_blog_self",methods=['GET'])
 def get_blog():
-    user=request.args.get('u')
-    u_name=User.query.get(2)
-    posts=u_name.posts.all()
-    l={}
+    user_n=request.args.get('u')
+    a=User.query.all()
+   
+    u_name=User.query.filter_by(name=a[1].name).all()
+    l=[]
+    posts=u_name[0].posts.all()
     for p in posts:
-        l.update({u_name.name:p.post_content})
-    print(l)
-    return json.dumps(l)
+        l.append(p.post_content)
+    k={}
+    k.update({"name":u_name[0].name})
+    k.update({"content":l})
+    return json.dumps(k)
+
+@app.route("/deleteAll",methods=['GET'])
+def deleteAll():
+    users=User.query.all()
+    print(users)
+
+    for u in users:
+        db.session.delete(u)
+    
+    posts=Post.query.all()
+    for p in posts:
+        db.session.delete(p)
+    
+    db.session.commit()
+    return json.dumps({"response" : "success"})
