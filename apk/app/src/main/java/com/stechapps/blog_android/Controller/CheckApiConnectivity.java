@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheckApiConnectivity implements Callback<ApiResponse> {
 private static String base_url="http://192.168.43.219:5000";
+
 private Context context;
 private  String re = "";
 

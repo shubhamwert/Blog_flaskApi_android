@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ApiResponse {
 
-    @SerializedName("first_response")
+    @SerializedName("success_date")
     private String s;
 
     public String getS() {

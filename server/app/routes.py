@@ -1,13 +1,35 @@
-from app import app,db
-from flask import render_template, flash, redirect,url_for,request,jsonify
+from app import app,db,auth
+from flask import render_template, flash, redirect,url_for,request,jsonify,g
+from flask import g,abort
 from flask_cors import CORS, cross_origin
 import json
 from app.models import User, Post
 from sqlalchemy.exc import IntegrityError
+import datetime
+
+
 CORS(app)
+
+tokens={}
+
+
+
+
+@auth.verify_token
+def verify_token(token):
+    if token in tokens:
+        g.current_user=tokens[token]
+        return True
+    return False
+
+
+
+
+
 @app.route("/info_time",methods=['GET'])
+@auth.login_required
 def info_time():
-       
+    print("Hello, %s!" % g.current_user)
     return json.dumps({ "first_response": "Initial setup" })
 
 @app.route("/create_blog",methods=['POST'])
@@ -31,30 +53,31 @@ def create_blog():
 def create_newuser():
   try:
     name=request.json["name"]
-    
+    password=request.json["password"]   
     u=User(username=name.format("@gamil.com"),name=name)
-
+    u.hash_password(password)
     db.session.add(u)
     db.session.commit()
+    return json.dumps({'response':'new user created'})
   except IntegrityError:
     return json.dumps({'response':'user already exists'})
+
     
     
-  return json.dumps({'response':'new user created'})
+  
 
 @app.route("/get_blog_self",methods=['GET'])
 def get_blog_self():
     user_n=request.args.get('u')
-    print(User.query.all())
+    print(user_n)
     u_name=User.query.filter_by(name=user_n).all()
     if u_name == []:
-        return json.dumps({"error":"code"})
-    print(u_name[0])
+        return json.dumps({"response":"error"})
     l=[]
     posts=u_name[0].posts.all()
     for p in posts:
         l.append(p.post_content)
-    k={}
+    k={"response":"success"}
     k.update({"name":u_name[0].name})
     k.update({"content":l})
     return json.dumps(k)
@@ -62,8 +85,6 @@ def get_blog_self():
 @app.route("/deleteAll",methods=['GET'])
 def deleteAll():
     auth_code=request.args.get('a')
-    print(type(auth_code))
-    print(auth_code=="alpha")
     if auth_code=="alpha":
         users=User.query.all()
         print(users)
@@ -78,4 +99,10 @@ def deleteAll():
         db.session.commit()
         return json.dumps({"response" : "success"})
     return json.dumps({"response" : "failure"})
+
+
+
+
+
+
     

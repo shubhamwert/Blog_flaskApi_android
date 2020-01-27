@@ -2,12 +2,31 @@ package com.stechapps.blog_android.api;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CreateBlog {
+public class CreateBlogModel {
     @SerializedName("blog_writer")
-    String blogWriter;
+    private String blogWriter;
 
-    @SerializedName("")
+    @SerializedName("blog")
+    private String blog;
 
+    public CreateBlogModel(String blogWriter, String blog) {
+        this.blogWriter = blogWriter;
+        this.blog = blog;
+    }
 
+    public String getBlogWriter() {
+        return blogWriter;
+    }
 
+    public void setBlogWriter(String blogWriter) {
+        this.blogWriter = blogWriter;
+    }
+
+    public String getBlog() {
+        return blog;
+    }
+
+    public void setBlog(String blog) {
+        this.blog = blog;
+    }
 }
