@@ -12,14 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.Blogs_List"></activity>
-        <activity android:name=".Activities.NewUserActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activities.Blogs_List" />
+        <activity android:name=".Activities.NewUserActivity" />
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 

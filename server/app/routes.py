@@ -12,19 +12,25 @@ CORS(app)
 
 tokens={}
 
+@auth.verify_password
+def verify_password(username, password):
+    u_name=User.query.filter_by(name=username).first()
+    if u_name is not None:
+        print(u_name)
+        g.current_user=u_name
+        return u_name.verify_password(password)
 
 
-
-@auth.verify_token
-def verify_token(token):
-    if token in tokens:
-        g.current_user=tokens[token]
-        return True
     return False
 
-
-
-
+@app.route("/sign_up")
+@auth.login_required
+def signUp():
+        print(auth.username(),auth)
+        return json.dumps({
+            "name":auth.username(),
+            "response":True
+        })
 
 @app.route("/info_time",methods=['GET'])
 @auth.login_required
@@ -67,19 +73,21 @@ def create_newuser():
   
 
 @app.route("/get_blog_self",methods=['GET'])
+@auth.login_required
 def get_blog_self():
     user_n=request.args.get('u')
-    print(user_n)
-    u_name=User.query.filter_by(name=user_n).all()
+    print("you seeing this ",auth.username())
+    u_name=User.query.filter_by(name=auth.username()).all()
     if u_name == []:
         return json.dumps({"response":"error"})
-    l=[]
+    l=["fall back"]
     posts=u_name[0].posts.all()
     for p in posts:
         l.append(p.post_content)
     k={"response":"success"}
     k.update({"name":u_name[0].name})
     k.update({"content":l})
+    print(json.dumps(k))
     return json.dumps(k)
 
 @app.route("/deleteAll",methods=['GET'])

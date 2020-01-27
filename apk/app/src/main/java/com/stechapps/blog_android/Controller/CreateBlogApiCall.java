@@ -25,10 +25,10 @@ public class CreateBlogApiCall implements Callback<CreateBlogModel> {
     }
 
     public void onStart(JsonObject j){
-        Retrofit retrofit=new Retrofit.Builder().baseUrl(base_url).addConverterFactory(GsonConverterFactory.create()).build();
-        ApiCall a=retrofit.create(ApiCall.class);
-        Call<CreateBlogModel> call=a.create_blog(j);
-        call.enqueue(this);
+            Retrofit retrofit=new Retrofit.Builder().baseUrl(base_url).addConverterFactory(GsonConverterFactory.create()).build();
+            ApiCall a=retrofit.create(ApiCall.class);
+            Call<CreateBlogModel> call=a.create_blog(j);
+            call.enqueue(this);
     }
 
 

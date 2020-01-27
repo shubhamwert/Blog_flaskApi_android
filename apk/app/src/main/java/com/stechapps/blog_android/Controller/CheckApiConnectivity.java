@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.stechapps.blog_android.api.ApiCall;
 import com.stechapps.blog_android.api.ApiResponse;
 
+import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +31,7 @@ private  String re = "";
 
         Retrofit retrofit=new Retrofit.Builder().baseUrl(base_url).addConverterFactory(GsonConverterFactory.create()).build();
         ApiCall a=retrofit.create(ApiCall.class);
-        Call<ApiResponse> call=a.m();
+        Call<ApiResponse> call=a.m(Credentials.basic("aman","aman"));
         call.enqueue(this);
 
 

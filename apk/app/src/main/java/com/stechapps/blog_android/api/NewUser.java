@@ -7,6 +7,16 @@ public class NewUser {
     private String name;
     @SerializedName("password")
     private String password;
+    @SerializedName("response")
+    private boolean response;
+
+    public boolean isResponse() {
+        return response;
+    }
+
+    public void setResponse(boolean response) {
+        this.response = response;
+    }
 
     public NewUser(String name, String password) {
         this.name = name;

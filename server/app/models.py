@@ -1,4 +1,4 @@
-from app import db
+from app import db,auth
 from datetime import datetime
 from passlib.apps import custom_app_context as pwd_context
 class User(db.Model):
@@ -8,10 +8,10 @@ class User(db.Model):
     name=db.Column(db.String(10),index=True,unique=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     password_hash=db.Column(db.String(128),nullable=False)
-
+    
     def __repr__(self):
         return '<User {}>'.format(self.username)
-
+   
     def hash_password(self,password):
         self.password_hash=pwd_context.encrypt(password)
 
