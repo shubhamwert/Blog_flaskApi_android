@@ -15,12 +15,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Controller implements Callback<ApiResponse> {
+public class CheckApiConnectivity implements Callback<ApiResponse> {
 private static String base_url="http://192.168.43.219:5000";
 private Context context;
 private  String re = "";
 
-    public Controller(Context context) {
+    public CheckApiConnectivity(Context context) {
         this.context=context;
     }
 

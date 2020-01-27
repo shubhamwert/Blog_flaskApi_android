@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.stechapps.blog_android.Controller.Controller;
+import com.stechapps.blog_android.Controller.CheckApiConnectivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void makeCall(View view) {
-        Controller c=new Controller(MainActivity.this);
+        CheckApiConnectivity c=new CheckApiConnectivity(MainActivity.this);
         c.onStart();
     }
 }
