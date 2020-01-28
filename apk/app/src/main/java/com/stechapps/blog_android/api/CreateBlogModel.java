@@ -9,6 +9,17 @@ public class CreateBlogModel {
     @SerializedName("blog")
     private String blog;
 
+    public boolean isResponse() {
+        return response;
+    }
+
+    public void setResponse(boolean response) {
+        this.response = response;
+    }
+
+    @SerializedName("response")
+    boolean response;
+
     public CreateBlogModel(String blogWriter, String blog) {
         this.blogWriter = blogWriter;
         this.blog = blog;

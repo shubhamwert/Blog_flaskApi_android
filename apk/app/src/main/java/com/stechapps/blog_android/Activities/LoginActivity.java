@@ -44,11 +44,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<NewUser> call, Response<NewUser> response) {
 
                 if(response.body().isResponse()){
-                   Toast.makeText(LoginActivity.this, " welcome "+response.body().getName(), Toast.LENGTH_SHORT).show();
+                   Toast.makeText(LoginActivity.this, " welcome "+response.body().getName()+" ", Toast.LENGTH_SHORT).show();
                    Intent i=new Intent(LoginActivity.this, MainActivity.class);
-                   i.putExtra("username",ed.getText().toString());
-                    i.putExtra("password",ed2.getText().toString());
-
+                   i.putExtra("token",response.body().getToken().toString());
                    startActivity(i);
 
 
@@ -64,5 +62,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void signUp(View view) {
+        startActivity(new Intent(LoginActivity.this,signUpActivity.class));
     }
 }

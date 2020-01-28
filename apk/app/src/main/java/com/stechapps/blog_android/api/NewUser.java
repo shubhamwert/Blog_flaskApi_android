@@ -9,6 +9,16 @@ public class NewUser {
     private String password;
     @SerializedName("response")
     private boolean response;
+    @SerializedName("token_id")
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public boolean isResponse() {
         return response;

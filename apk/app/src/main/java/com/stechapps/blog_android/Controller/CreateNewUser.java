@@ -33,7 +33,11 @@ public class CreateNewUser implements Callback<NewUser> {
     @Override
     public void onResponse(Call<com.stechapps.blog_android.api.NewUser> call, Response<com.stechapps.blog_android.api.NewUser> response) {
         if(response.isSuccessful()){
-            Toast.makeText(mContext, " "+response.body().getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "New user Created"+response.body().getName(), Toast.LENGTH_SHORT).show();
+
+        }
+        else{
+            Toast.makeText(mContext, "unable to create user"+response.body().getName(), Toast.LENGTH_SHORT).show();
 
         }
     }

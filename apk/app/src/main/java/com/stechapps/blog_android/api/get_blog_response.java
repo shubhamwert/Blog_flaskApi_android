@@ -7,7 +7,7 @@ import java.util.List;
 
 public class get_blog_response {
     @SerializedName("response")
-    private String response;
+    private boolean response;
 
     @SerializedName("name")
     private String name;
@@ -15,13 +15,7 @@ public class get_blog_response {
     @SerializedName("content")
     private List<String> content=new ArrayList<String>();
 
-    public String getResponse() {
-        return response;
-    }
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
 
     public String getName() {
         return name;
@@ -39,7 +33,15 @@ public class get_blog_response {
         this.content = content;
     }
 
-    public get_blog_response(String response, String name, List<String> content) {
+    public boolean isResponse() {
+        return response;
+    }
+
+    public void setResponse(boolean response) {
+        this.response = response;
+    }
+
+    public get_blog_response(boolean response, String name, List<String> content) {
         this.response = response;
         this.name = name;
         this.content = content;

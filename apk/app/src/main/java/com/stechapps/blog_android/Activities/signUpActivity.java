@@ -7,18 +7,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.stechapps.blog_android.Controller.CreateNewUser;
-import com.stechapps.blog_android.MainActivity;
 import com.stechapps.blog_android.R;
 
-public class NewUserActivity extends AppCompatActivity {
+public class signUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_user);
+        setContentView(R.layout.activity_sign_up);
 
     }
 
@@ -35,8 +33,9 @@ public class NewUserActivity extends AppCompatActivity {
             Toast.makeText(this, "try again", Toast.LENGTH_SHORT).show();
             return;
         }
-        CreateNewUser c=new CreateNewUser(NewUserActivity.this);
+        CreateNewUser c=new CreateNewUser(signUpActivity.this);
         c.OnStart(j);
+        finish();
 
     }
 }
